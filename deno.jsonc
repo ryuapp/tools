@@ -1,0 +1,18 @@
+{
+  "tasks": {
+    "start": "next start",
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "deploy": {
+      "command": "wrangler deploy",
+      "dependencies": ["build"]
+    },
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
+  },
+  "nodeModulesDir": "auto",
+  "unstable": [
+    "unsafe-proto",
+    "sloppy-imports"
+  ],
+  "exclude": ["node_modules", "cloudflare-env.d.ts", "dist", ".next"]
+}
