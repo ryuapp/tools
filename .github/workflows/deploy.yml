@@ -1,0 +1,23 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v5
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Check format
+        run: deno fmt --check
+      - name: Check lint
+        run: deno lint
+      - name: Check types
+        run: deno check .
+      - name: Build Next.js Project
+        run: deno task build
