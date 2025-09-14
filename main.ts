@@ -1,23 +1,39 @@
+function parseAcceptLanguage(acceptLanguage: string): string {
+  if (!acceptLanguage) return "en";
+
+  // Parse Accept-Language header: e.g., "ja;q=0.9,en;q=0.8,en-US;q=0.7"
+  const languages = acceptLanguage.split(",").map((lang) => {
+    const [code, qValue] = lang.trim().split(";");
+    const quality = qValue ? parseFloat(qValue.replace("q=", "")) : 1.0;
+    return { code: code.toLowerCase(), quality };
+  });
+
+  // Sort by quality (higher is better)
+  languages.sort((a, b) => b.quality - a.quality);
+
+  for (const lang of languages) {
+    if (lang.code === "ja" || lang.code.startsWith("ja-")) {
+      return "ja";
+    }
+    if (lang.code === "en" || lang.code.startsWith("en-")) {
+      return "en";
+    }
+  }
+
+  return "en";
+}
+
 export default {
   fetch(request, env) {
     const pathname = new URL(request.url).pathname;
 
-    // Remove /en prefix and redirect to root path
-    if (pathname === "/en" || pathname.startsWith("/en/")) {
-      const newPath = pathname.slice(3) || "/";
-      return Response.redirect(new URL(newPath, request.url).toString(), 301);
+    // Handle root path - redirect based on Accept-Language
+    if (pathname === "/") {
+      const acceptLanguage = request.headers.get("Accept-Language") || "";
+      const lang = parseAcceptLanguage(acceptLanguage);
+      return Response.redirect(new URL(`/${lang}`, request.url).toString());
     }
 
-    // Rewrite paths without locale to /en
-    if (
-      !pathname.startsWith("/ja") &&
-      !pathname.startsWith("/_next") && !pathname.startsWith("/favicon")
-    ) {
-      const newUrl = new URL(`/en${pathname}`, request.url);
-      return env.ASSETS.fetch(new Request(newUrl.toString(), request));
-    }
-
-    // All other paths are handled by the static assets
     return env.ASSETS.fetch(request);
   },
 } satisfies ExportedHandler<CloudflareEnv>;
