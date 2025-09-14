@@ -1,12 +1,15 @@
-name: Build
+name: CI
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    name: Build
+    name: CI
     steps:
       - uses: actions/checkout@v5
       - uses: denoland/setup-deno@v2
