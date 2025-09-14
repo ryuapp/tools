@@ -13,5 +13,6 @@
     "tailwindcss": "4.1.13",
     "typescript": "5.9.2",
     "wrangler": "4.36.0"
-  }
+  },
+  "trustedDependencies": ["deno"]
 }
