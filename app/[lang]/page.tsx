@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { resolveCanonicalPath, resolveLinkPath } from "../../lib/link.ts";
+import { resolveCanonicalUrl, resolveLinkPath } from "../../lib/link.ts";
 import type { LangPageProps } from "../../lib/type.ts";
 import { staticLangParams } from "../../lib/lang.ts";
 
@@ -34,7 +34,7 @@ export async function generateMetadata(
     title,
     description,
     alternates: {
-      canonical: resolveCanonicalPath(lang),
+      canonical: resolveCanonicalUrl(lang),
     },
   };
 }

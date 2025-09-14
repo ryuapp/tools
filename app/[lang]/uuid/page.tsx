@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import UUIDGeneratorClient from "./uuid-generator-client.tsx";
 import { staticLangParams } from "../../../lib/lang.ts";
 import { LangPageProps } from "../../../lib/type.ts";
-import { resolveCanonicalPath } from "../../../lib/link.ts";
+import { resolveCanonicalUrl } from "../../../lib/link.ts";
 
 const content = {
   en: {
@@ -37,7 +37,7 @@ export async function generateMetadata(
     title: t.title,
     description: t.description,
     alternates: {
-      canonical: resolveCanonicalPath(lang, "uuid"),
+      canonical: resolveCanonicalUrl(lang, "uuid"),
     },
   };
 }

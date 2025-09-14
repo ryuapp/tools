@@ -15,14 +15,15 @@ export function resolveLinkPath(lang: string, path: string): string {
 }
 
 /**
- * Resolves canonical paths for SEO
+ * Resolves canonical URLs for SEO
  * English pages use root path (/), Japanese pages use /ja
  */
-export function resolveCanonicalPath(lang: string, path: string = ""): string {
-  if (lang === "ja") {
-    return `/ja${path ? `/${path}` : ""}`;
+export function resolveCanonicalUrl(lang: string, path: string = ""): string {
+  const baseUrl = "https://tools.ryu.app";
+
+  if (lang === "en") {
+    return `${baseUrl}${path ? `/${path}` : ""}`;
   }
 
-  // English uses root path
-  return `${path ? `/${path}` : "/"}`;
+  return `${baseUrl}/${lang}${path ? `/${path}` : ""}`;
 }
