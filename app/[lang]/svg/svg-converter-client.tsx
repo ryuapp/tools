@@ -39,6 +39,7 @@ export default function SvgConverterClient({ translations }: Props) {
   const [inputMode, setInputMode] = useState<"upload" | "paste">("upload");
   const [pastedSvg, setPastedSvg] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const settingsTimeoutRef = useRef<number | null>(null);
   const currentSettingsRef = useRef({
@@ -72,11 +73,14 @@ export default function SvgConverterClient({ translations }: Props) {
         return;
       }
 
+      setIsGenerating(true);
+
       try {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         if (!ctx) {
           console.error("Canvas context not available");
+          setIsGenerating(false);
           return;
         }
 
@@ -128,6 +132,7 @@ export default function SvgConverterClient({ translations }: Props) {
                 const newImageUrl = URL.createObjectURL(blob);
                 setImageUrl(newImageUrl);
               }
+              setIsGenerating(false);
             },
             mimeType,
             quality,
@@ -138,11 +143,13 @@ export default function SvgConverterClient({ translations }: Props) {
         img.onerror = () => {
           console.error("Failed to load SVG image");
           URL.revokeObjectURL(url);
+          setIsGenerating(false);
         };
 
         img.src = url;
       } catch (error) {
         console.error("Conversion error:", error);
+        setIsGenerating(false);
       }
     },
     [imageUrl],
@@ -152,6 +159,9 @@ export default function SvgConverterClient({ translations }: Props) {
     if (settingsTimeoutRef.current) {
       clearTimeout(settingsTimeoutRef.current);
     }
+
+    setIsGenerating(true);
+
     settingsTimeoutRef.current = setTimeout(() => {
       if (svgContent) {
         // Use ref to get current values at execution time
@@ -164,8 +174,10 @@ export default function SvgConverterClient({ translations }: Props) {
           settings.backgroundColor,
           settings.transparent,
         );
+      } else {
+        setIsGenerating(false);
       }
-    }, 500);
+    }, 300);
   }, [convertToImage, svgContent]);
 
   const parseSvgDimensions = useCallback((content: string) => {
@@ -537,7 +549,8 @@ export default function SvgConverterClient({ translations }: Props) {
                   <button
                     type="button"
                     onClick={downloadImage}
-                    className="flex items-center gap-2 rounded-md bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                    disabled={isGenerating}
+                    className="flex items-center gap-2 rounded-md bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400 dark:bg-green-500 dark:hover:bg-green-600 dark:disabled:bg-gray-600"
                   >
                     <DownloadIcon className="h-4 w-4" />
                     {translations.downloadButton}
