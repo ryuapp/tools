@@ -12,6 +12,7 @@ const sidebarContent = {
     title: "Tools",
     tools: [
       { name: "UUID Generator", path: "uuid" },
+      { name: "SVG Converter", path: "svg" },
     ],
     theme: {
       light: "Light mode",
@@ -22,6 +23,7 @@ const sidebarContent = {
     title: "ツールズ",
     tools: [
       { name: "UUID生成", path: "uuid" },
+      { name: "SVG変換", path: "svg" },
     ],
     theme: {
       light: "ライトモード",
@@ -31,7 +33,8 @@ const sidebarContent = {
 };
 
 export function Sidebar({ lang }: Props) {
-  const t = sidebarContent[lang as keyof typeof sidebarContent];
+  const t = sidebarContent[lang as keyof typeof sidebarContent] ||
+    sidebarContent.en;
 
   return (
     <aside className="fixed top-0 left-0 z-40 flex h-screen w-64 flex-col -translate-x-full transform overflow-y-auto border-r border-stone-200 bg-stone-50 transition-transform md:static md:w-64 md:translate-x-0 lg:w-64 dark:border-stone-700 dark:bg-stone-900">
