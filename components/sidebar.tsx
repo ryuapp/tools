@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { resolveLinkPath } from "../../lib/link.ts";
+import { resolveLinkPath } from "../lib/link.ts";
 import { ThemeToggle } from "./theme-toggle.tsx";
 import { LanguageSwitcher } from "./language-switcher.tsx";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";

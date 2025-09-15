@@ -1,8 +1,8 @@
 import { staticLangParams } from "../../lib/lang.ts";
 import { LangLayoutProps } from "../../lib/type.ts";
 import "../globals.css";
-import { Sidebar } from "../components/sidebar.tsx";
-import { ThemeProvider } from "../components/theme-provider.tsx";
+import { Sidebar } from "../../components/sidebar.tsx";
+import { ThemeProvider } from "../../components/theme-provider.tsx";
 
 export function generateStaticParams() {
   return staticLangParams;
