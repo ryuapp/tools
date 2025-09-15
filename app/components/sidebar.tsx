@@ -2,6 +2,7 @@ import Link from "next/link";
 import { resolveLinkPath } from "../../lib/link.ts";
 import { ThemeToggle } from "./theme-toggle.tsx";
 import { LanguageSwitcher } from "./language-switcher.tsx";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 type Props = {
   lang: string;
@@ -67,15 +68,24 @@ export function Sidebar({ lang }: Props) {
       </div>
 
       <div className="border-stone-200 border-t p-4 dark:border-stone-700">
-        <p className="text-right text-stone-500 text-xs dark:text-stone-400">
-          © 2025{" "}
+        <div className="flex items-center justify-end gap-2">
           <a
-            href="https://ryu.app"
-            className="transition-colors hover:text-stone-700 dark:hover:text-stone-300"
+            href="https://github.com/ryuapp/tools"
+            className="text-stone-500 transition-colors hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+            aria-label="GitHub Repository"
           >
-            Ryu
+            <GitHubLogoIcon className="h-4 w-4" />
           </a>
-        </p>
+          <p className="text-stone-500 text-xs dark:text-stone-400">
+            © 2025{" "}
+            <a
+              href="https://ryu.app"
+              className="transition-colors hover:text-stone-700 dark:hover:text-stone-300"
+            >
+              Ryu
+            </a>
+          </p>
+        </div>
       </div>
     </aside>
   );
