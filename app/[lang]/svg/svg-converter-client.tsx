@@ -36,7 +36,7 @@ export default function SvgConverterClient({ translations }: Props) {
   const [pastedSvg, setPastedSvg] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const settingsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const settingsTimeoutRef = useRef<number | null>(null);
   const currentSettingsRef = useRef({
     width,
     height,
