@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { resolveLinkPath } from "../../lib/link.ts";
 import { ThemeToggle } from "./theme-toggle.tsx";
+import { LanguageSwitcher } from "./language-switcher.tsx";
 
 type Props = {
   lang: string;
@@ -57,7 +58,8 @@ export function Sidebar({ lang }: Props) {
         </nav>
       </div>
 
-      <div className="p-4">
+      <div className="space-y-2 p-4">
+        <LanguageSwitcher currentLang={lang} />
         <ThemeToggle labels={t.theme} />
       </div>
 
