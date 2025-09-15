@@ -16,7 +16,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body className="antialiased bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100">
+      <body className="bg-white text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100">
         <ThemeProvider>
           <div className="flex min-h-screen">
             <Sidebar lang={lang} />

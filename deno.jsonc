@@ -10,6 +10,9 @@
     "preview": "wrangler dev",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
   },
+  "lint": {
+    "plugins": ["jsr:@ryu/deno-lint-plugin-tailwindcss@0.2.0"]
+  },
   "nodeModulesDir": "auto",
   "unstable": [
     "unsafe-proto",
