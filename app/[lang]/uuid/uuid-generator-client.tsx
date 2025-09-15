@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { v1, v3, v4, v5, v6, v7 } from "uuid";
+import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
 
 type Props = {
   translations: {
@@ -233,11 +234,14 @@ export default function UUIDGeneratorClient({ translations }: Props) {
             <button
               type="button"
               onClick={() => handleCopy(uuid, index)}
-              className="rounded border border-stone-300 bg-white px-3 py-1 text-stone-700 text-xs transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
-            >
-              {copiedIndex === index
+              className="rounded border border-stone-300 bg-white p-2 text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+              aria-label={copiedIndex === index
                 ? translations.copied
                 : translations.copyButton}
+            >
+              {copiedIndex === index
+                ? <CheckIcon className="h-4 w-4" />
+                : <CopyIcon className="h-4 w-4" />}
             </button>
           </div>
         ))}
