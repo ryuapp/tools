@@ -37,7 +37,7 @@ export default async function Home({ params }: LangPageProps) {
   const t = content[lang];
 
   return (
-    <div className="font-sans flex items-center justify-center min-h-screen p-4">
+    <div className="font-sans flex items-center justify-center h-full p-4">
       <main className="flex flex-col items-center text-center">
         <h1 className="text-4xl font-bold text-stone-900 dark:text-stone-100">
           {t.title}
