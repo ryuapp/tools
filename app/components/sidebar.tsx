@@ -33,8 +33,8 @@ export function Sidebar({ lang }: Props) {
   const t = sidebarContent[lang as keyof typeof sidebarContent];
 
   return (
-    <aside className="w-64 md:w-64 lg:w-64 bg-stone-50 dark:bg-stone-900 border-r border-stone-200 dark:border-stone-700 h-screen overflow-y-auto fixed md:static top-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform">
-      <div className="p-4">
+    <aside className="w-64 md:w-64 lg:w-64 bg-stone-50 dark:bg-stone-900 border-r border-stone-200 dark:border-stone-700 h-screen overflow-y-auto fixed md:static top-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform flex flex-col">
+      <div className="p-4 flex-1">
         <Link href={`/${lang}`} className="block">
           <h1 className="text-lg font-bold text-stone-900 dark:text-white mb-4">
             {t.title}
@@ -55,10 +55,22 @@ export function Sidebar({ lang }: Props) {
             ))}
           </ul>
         </nav>
+      </div>
 
-        <div className="mt-8 pt-4 border-t border-stone-200 dark:border-stone-700">
-          <ThemeToggle labels={t.theme} />
-        </div>
+      <div className="p-4">
+        <ThemeToggle labels={t.theme} />
+      </div>
+
+      <div className="p-4 border-t border-stone-200 dark:border-stone-700">
+        <p className="text-xs text-stone-500 dark:text-stone-400 text-right">
+          © 2025{" "}
+          <a
+            href="https://ryu.app"
+            className="hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
+          >
+            Ryu
+          </a>
+        </p>
       </div>
     </aside>
   );
