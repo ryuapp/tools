@@ -20,7 +20,7 @@ const sidebarContent = {
   ja: {
     title: "ツールズ",
     tools: [
-      { name: "UUIDジェネレーター", path: "uuid" },
+      { name: "UUID生成", path: "uuid" },
     ],
     theme: {
       light: "ライトモード",
