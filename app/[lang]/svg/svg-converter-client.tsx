@@ -9,6 +9,7 @@ type Props = {
     downloadButton: string;
     width: string;
     height: string;
+    format: string;
     backgroundColor: string;
     transparent: string;
     loadSvgButton: string;
@@ -21,12 +22,14 @@ type Props = {
     errorConversion: string;
     preview: string;
     settings: string;
+    webpWarning: string;
   };
 };
 
 export default function SvgConverterClient({ translations }: Props) {
   const [svgContent, setSvgContent] = useState<string>("");
-  const [pngUrl, setPngUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [format, setFormat] = useState<"png" | "jpeg" | "webp">("png");
   const [width, setWidth] = useState<number>(1024);
   const [height, setHeight] = useState<number>(1024);
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
@@ -40,23 +43,31 @@ export default function SvgConverterClient({ translations }: Props) {
   const currentSettingsRef = useRef({
     width,
     height,
+    format,
     backgroundColor,
     transparent,
   });
 
   // Update ref whenever settings change
-  currentSettingsRef.current = { width, height, backgroundColor, transparent };
+  currentSettingsRef.current = {
+    width,
+    height,
+    format,
+    backgroundColor,
+    transparent,
+  };
 
-  const convertToPng = useCallback(
+  const convertToImage = useCallback(
     (
       content: string,
       w: number,
       h: number,
+      outputFormat: "png" | "jpeg" | "webp",
       bg: string,
       trans: boolean,
     ) => {
       if (!content) {
-        setPngUrl("");
+        setImageUrl("");
         return;
       }
 
@@ -83,16 +94,43 @@ export default function SvgConverterClient({ translations }: Props) {
 
         img.onload = () => {
           ctx.drawImage(img, 0, 0, w, h);
-          canvas.toBlob((blob) => {
-            if (blob) {
-              // Revoke previous PNG URL to prevent memory leaks
-              if (pngUrl) {
-                URL.revokeObjectURL(pngUrl);
+
+          // Determine MIME type and quality
+          let mimeType: string;
+          let quality: number | undefined;
+
+          switch (outputFormat) {
+            case "png":
+              mimeType = "image/png";
+              break;
+            case "jpeg":
+              mimeType = "image/jpeg";
+              quality = 0.92;
+              break;
+            case "webp":
+              mimeType = "image/webp";
+              quality = 0.92;
+              break;
+            default:
+              throw new Error(
+                `Unexpected direction: ${outputFormat satisfies never}`,
+              );
+          }
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                // Revoke previous image URL to prevent memory leaks
+                if (imageUrl) {
+                  URL.revokeObjectURL(imageUrl);
+                }
+                const newImageUrl = URL.createObjectURL(blob);
+                setImageUrl(newImageUrl);
               }
-              const newPngUrl = URL.createObjectURL(blob);
-              setPngUrl(newPngUrl);
-            }
-          }, "image/png");
+            },
+            mimeType,
+            quality,
+          );
           URL.revokeObjectURL(url);
         };
 
@@ -106,7 +144,7 @@ export default function SvgConverterClient({ translations }: Props) {
         console.error("Conversion error:", error);
       }
     },
-    [pngUrl],
+    [imageUrl],
   );
 
   const updateSettingsDebounced = useCallback(() => {
@@ -117,16 +155,17 @@ export default function SvgConverterClient({ translations }: Props) {
       if (svgContent) {
         // Use ref to get current values at execution time
         const settings = currentSettingsRef.current;
-        convertToPng(
+        convertToImage(
           svgContent,
           settings.width,
           settings.height,
+          settings.format,
           settings.backgroundColor,
           settings.transparent,
         );
       }
     }, 500);
-  }, [convertToPng, svgContent]);
+  }, [convertToImage, svgContent]);
 
   const parseSvgDimensions = useCallback((content: string) => {
     try {
@@ -161,10 +200,11 @@ export default function SvgConverterClient({ translations }: Props) {
 
       // Convert immediately with the new dimensions
       setTimeout(() => {
-        convertToPng(
+        convertToImage(
           content,
           newWidth,
           newHeight,
+          format,
           backgroundColor,
           transparent,
         );
@@ -172,7 +212,7 @@ export default function SvgConverterClient({ translations }: Props) {
     } catch (error) {
       console.error("Error parsing SVG:", error);
     }
-  }, [width, height, backgroundColor, transparent, convertToPng]);
+  }, [width, height, format, backgroundColor, transparent, convertToImage]);
 
   const handleFileUpload = useCallback((file: File) => {
     if (file.type !== "image/svg+xml") {
@@ -200,7 +240,7 @@ export default function SvgConverterClient({ translations }: Props) {
     const trimmedSvg = content.trim();
     if (!trimmedSvg) {
       setSvgContent("");
-      setPngUrl("");
+      setImageUrl("");
       setFileName("");
       return;
     }
@@ -257,14 +297,17 @@ export default function SvgConverterClient({ translations }: Props) {
     [handleFileUpload],
   );
 
-  const downloadPng = useCallback(() => {
-    if (!pngUrl) return;
+  const downloadImage = useCallback(() => {
+    if (!imageUrl) return;
 
     const a = document.createElement("a");
-    a.href = pngUrl;
-    a.download = fileName ? `${fileName}.png` : "converted.png";
+    a.href = imageUrl;
+    const extension = format;
+    a.download = fileName
+      ? `${fileName}.${extension}`
+      : `converted.${extension}`;
     a.click();
-  }, [pngUrl, fileName]);
+  }, [imageUrl, fileName, format]);
 
   return (
     <div className="space-y-6">
@@ -360,11 +403,11 @@ export default function SvgConverterClient({ translations }: Props) {
             <h3 className="font-semibold text-lg text-stone-900 dark:text-stone-100">
               {translations.preview}
             </h3>
-            {pngUrl && (
+            {imageUrl && (
               <div className="rounded-lg border border-stone-200 p-4 dark:border-stone-700">
                 <img
-                  src={pngUrl}
-                  alt="Converted PNG"
+                  src={imageUrl}
+                  alt="Converted Image"
                   className="mx-auto max-w-full"
                   style={{ maxHeight: "400px" }}
                 />
@@ -409,6 +452,29 @@ export default function SvgConverterClient({ translations }: Props) {
                   />
                 </div>
 
+                <div className="flex items-center gap-2">
+                  <label className="w-24 font-medium text-sm text-stone-700 dark:text-stone-300">
+                    {translations.format}
+                  </label>
+                  <select
+                    value={format}
+                    onChange={(e) => {
+                      setFormat(e.target.value as "png" | "jpeg" | "webp");
+                      updateSettingsDebounced();
+                    }}
+                    className="rounded-md border border-stone-300 bg-white px-3 py-1 text-stone-900 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100"
+                  >
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                    <option value="webp">WebP</option>
+                  </select>
+                  {format === "webp" && (
+                    <span className="text-orange-600 text-xs dark:text-orange-400">
+                      {translations.webpWarning}
+                    </span>
+                  )}
+                </div>
+
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <label className="w-24 font-medium text-sm text-stone-700 dark:text-stone-300">
@@ -441,10 +507,10 @@ export default function SvgConverterClient({ translations }: Props) {
                   </label>
                 </div>
 
-                {pngUrl && (
+                {imageUrl && (
                   <button
                     type="button"
-                    onClick={downloadPng}
+                    onClick={downloadImage}
                     className="flex items-center gap-2 rounded-md bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
                   >
                     <DownloadIcon className="h-4 w-4" />
