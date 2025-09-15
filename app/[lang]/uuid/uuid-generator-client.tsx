@@ -39,7 +39,10 @@ export default function UUIDGeneratorClient({ translations }: Props) {
     <>
       <div className="space-y-4 mb-8 flex gap-4">
         <div className="flex items-center gap-4 my-auto">
-          <label htmlFor="quantity" className="text-sm font-medium">
+          <label
+            htmlFor="quantity"
+            className="text-sm font-medium text-stone-700 dark:text-stone-300"
+          >
             {translations.quantity}
           </label>
           <input
@@ -52,14 +55,14 @@ export default function UUIDGeneratorClient({ translations }: Props) {
               setQuantity(
                 Math.max(1, Math.min(100, parseInt(e.target.value) || 1)),
               )}
-            className="w-20 px-2 py-1 border rounded-md"
+            className="w-20 px-2 py-1 border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-md"
           />
         </div>
 
         <button
           type="button"
           onClick={handleGenerate}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
         >
           {translations.generateButton}
         </button>
@@ -69,13 +72,13 @@ export default function UUIDGeneratorClient({ translations }: Props) {
         {uuids.map((uuid, index) => (
           <div
             key={index}
-            className="flex items-center gap-2 p-3 bg-gray-100 dark:bg-transparent rounded-md font-mono text-sm max-w-xl"
+            className="flex items-center gap-2 p-3 bg-stone-100 dark:bg-stone-800 rounded-md font-mono text-sm max-w-xl text-stone-900 dark:text-stone-100"
           >
             <span className="flex-1 select-all">{uuid}</span>
             <button
               type="button"
               onClick={() => handleCopy(uuid, index)}
-              className="px-3 py-1 bg-white border border-gray-300 dark:bg-transparent rounded hover:bg-gray-50 dark:hover:bg-transparent transition-colors text-xs"
+              className="px-3 py-1 bg-white dark:bg-stone-700 border border-stone-300 dark:border-stone-600 rounded hover:bg-stone-50 dark:hover:bg-stone-600 transition-colors text-xs text-stone-700 dark:text-stone-300"
             >
               {copiedIndex === index
                 ? translations.copied

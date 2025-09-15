@@ -49,7 +49,9 @@ export default async function UUIDGenerator({ params }: LangPageProps) {
   return (
     <div className="min-h-screen p-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">{t.title}</h1>
+        <h1 className="text-3xl font-bold mb-8 text-stone-900 dark:text-stone-100">
+          {t.title}
+        </h1>
         <UUIDGeneratorClient translations={t} />
       </div>
     </div>
