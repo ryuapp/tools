@@ -34,6 +34,7 @@ export default function SvgConverterClient({ translations }: Props) {
   const [height, setHeight] = useState<number>(1024);
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const [transparent, setTransparent] = useState<boolean>(true);
+  const [previousTransparent, setPreviousTransparent] = useState<boolean>(true);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [inputMode, setInputMode] = useState<"upload" | "paste">("upload");
   const [pastedSvg, setPastedSvg] = useState<string>("");
@@ -82,8 +83,8 @@ export default function SvgConverterClient({ translations }: Props) {
         canvas.width = w;
         canvas.height = h;
 
-        // Set background
-        if (!trans) {
+        // Set background (JPEG doesn't support transparency)
+        if (!trans || outputFormat === "jpeg") {
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, w, h);
         }
@@ -459,7 +460,25 @@ export default function SvgConverterClient({ translations }: Props) {
                   <select
                     value={format}
                     onChange={(e) => {
-                      setFormat(e.target.value as "png" | "jpeg" | "webp");
+                      const newFormat = e.target.value as
+                        | "png"
+                        | "jpeg"
+                        | "webp";
+                      const oldFormat = format;
+                      setFormat(newFormat);
+
+                      // Handle transparency state when switching formats
+                      if (newFormat === "jpeg") {
+                        // Save current transparent state before switching to JPEG
+                        if (oldFormat !== "jpeg") {
+                          setPreviousTransparent(transparent);
+                        }
+                        setTransparent(false);
+                      } else if (oldFormat === "jpeg") {
+                        // Restore previous transparent state when switching from JPEG
+                        setTransparent(previousTransparent);
+                      }
+
                       updateSettingsDebounced();
                     }}
                     className="rounded-md border border-stone-300 bg-white px-3 py-1 text-stone-900 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100"
@@ -487,11 +506,17 @@ export default function SvgConverterClient({ translations }: Props) {
                         setBackgroundColor(e.target.value);
                         updateSettingsDebounced();
                       }}
-                      disabled={transparent}
+                      disabled={format !== "jpeg" && transparent}
                       className="h-8 w-16 rounded border border-stone-300 dark:border-stone-600"
                     />
                   </div>
-                  <label className="flex cursor-pointer items-center gap-2 pl-26">
+                  <label
+                    className={`flex items-center gap-2 pl-26 ${
+                      format === "jpeg"
+                        ? "cursor-not-allowed opacity-50"
+                        : "cursor-pointer"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={transparent}
@@ -499,6 +524,7 @@ export default function SvgConverterClient({ translations }: Props) {
                         setTransparent(e.target.checked);
                         updateSettingsDebounced();
                       }}
+                      disabled={format === "jpeg"}
                       className="rounded border-stone-300 text-blue-600 focus:ring-blue-500 dark:border-stone-600"
                     />
                     <span className="text-sm text-stone-700 dark:text-stone-300">
