@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
   const title = lang === 'ja' ? 'ツールズ' : 'Tools';
 
   return {
+    metadataBase: new URL('https://tools.ryu.app'),
     title,
     openGraph: {
       title,
