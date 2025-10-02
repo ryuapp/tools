@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { staticLangParams } from "../../lib/lang.ts";
 import { LangLayoutProps } from "../../lib/type.ts";
 import "../globals.css";
@@ -6,6 +7,19 @@ import { ThemeProvider } from "../../components/theme-provider.tsx";
 
 export function generateStaticParams() {
   return staticLangParams;
+}
+
+export async function generateMetadata({ params }: LangLayoutProps): Promise<Metadata> {
+  const lang = (await params).lang;
+  const title = lang === 'ja' ? 'ツールズ' : 'Tools';
+
+  return {
+    title,
+    openGraph: {
+      title,
+      images: `/${lang}/og.webp`,
+    },
+  };
 }
 
 export default async function RootLayout({
