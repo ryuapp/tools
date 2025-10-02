@@ -9,12 +9,14 @@ export function generateStaticParams() {
   return staticLangParams;
 }
 
-export async function generateMetadata({ params }: LangLayoutProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: LangLayoutProps,
+): Promise<Metadata> {
   const lang = (await params).lang;
-  const title = lang === 'ja' ? 'ツールズ' : 'Tools';
+  const title = lang === "ja" ? "ツールズ" : "Tools";
 
   return {
-    metadataBase: new URL('https://tools.ryu.app'),
+    metadataBase: new URL("https://tools.ryu.app"),
     title,
     openGraph: {
       title,
