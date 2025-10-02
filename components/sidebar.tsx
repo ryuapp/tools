@@ -17,6 +17,7 @@ const sidebarContent = {
     tools: [
       { name: "UUID Generator", path: "uuid" },
       { name: "SVG Converter", path: "svg" },
+      { name: "Base64 Encoder/Decoder", path: "base64" },
     ],
     theme: {
       light: "Light mode",
@@ -28,6 +29,7 @@ const sidebarContent = {
     tools: [
       { name: "UUID生成", path: "uuid" },
       { name: "SVG変換", path: "svg" },
+      { name: "Base64エンコード/デコード", path: "base64" },
     ],
     theme: {
       light: "ライトモード",
