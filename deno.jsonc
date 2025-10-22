@@ -1,8 +1,8 @@
 {
   "tasks": {
     "start": "next start",
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "deploy": {
       "command": "wrangler deploy",
       "dependencies": ["build"]
