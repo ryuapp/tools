@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig = {
   typedRoutes: true,
+  reactCompiler: true,
   output: "export",
   distDir: "dist",
   typescript: {

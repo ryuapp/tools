@@ -9,8 +9,9 @@
     "npm:@types/react@19.2.2": "19.2.2",
     "npm:@types/uuid@11.0.0": "11.0.0",
     "npm:@vercel/og@0.8.5": "0.8.5",
+    "npm:babel-plugin-react-compiler@1.0.0": "1.0.0",
     "npm:next-themes@0.4.6": "0.4.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
-    "npm:next@16.0.0": "16.0.0_react@19.2.0_react-dom@19.2.0__react@19.2.0",
+    "npm:next@16.0.0": "16.0.0_react@19.2.0_react-dom@19.2.0__react@19.2.0_babel-plugin-react-compiler@1.0.0",
     "npm:react-dom@19.2.0": "19.2.0_react@19.2.0",
     "npm:react@19.2.0": "19.2.0",
     "npm:tailwindcss@4.1.15": "4.1.15",
@@ -26,6 +27,19 @@
   "npm": {
     "@alloc/quick-lru@5.2.0": {
       "integrity": "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="
+    },
+    "@babel/helper-string-parser@7.27.1": {
+      "integrity": "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA=="
+    },
+    "@babel/helper-validator-identifier@7.27.1": {
+      "integrity": "sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow=="
+    },
+    "@babel/types@7.28.4": {
+      "integrity": "sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==",
+      "dependencies": [
+        "@babel/helper-string-parser",
+        "@babel/helper-validator-identifier"
+      ]
     },
     "@cloudflare/kv-asset-handler@0.4.0": {
       "integrity": "sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA==",
@@ -728,6 +742,12 @@
       "integrity": "sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==",
       "bin": true
     },
+    "babel-plugin-react-compiler@1.0.0": {
+      "integrity": "sha512-Ixm8tFfoKKIPYdCCKYTsqv+Fd4IJ0DQqMyEimo+pxUOMUR9cVPlwTrFt9Avu+3cb6Zp3mAzl+t1MrG2fxxKsxw==",
+      "dependencies": [
+        "@babel/types"
+      ]
+    },
     "base64-js@0.0.8": {
       "integrity": "sha512-3XSA2cR/h/73EzlXXdU6YNycmYI7+kicTxks4eJg2g39biHR84slg2+des+p7iHYhbRg/udIS4TD53WabcOUkw=="
     },
@@ -1023,6 +1043,34 @@
       ],
       "bin": true
     },
+    "next@16.0.0_react@19.2.0_react-dom@19.2.0__react@19.2.0_babel-plugin-react-compiler@1.0.0": {
+      "integrity": "sha512-nYohiNdxGu4OmBzggxy9rczmjIGI+TpR5vbKTsE1HqYwNm1B+YSiugSrFguX6omMOKnDHAmBPY4+8TNJk0Idyg==",
+      "dependencies": [
+        "@next/env",
+        "@swc/helpers",
+        "babel-plugin-react-compiler",
+        "caniuse-lite",
+        "postcss@8.4.31",
+        "react",
+        "react-dom",
+        "styled-jsx"
+      ],
+      "optionalDependencies": [
+        "@next/swc-darwin-arm64",
+        "@next/swc-darwin-x64",
+        "@next/swc-linux-arm64-gnu",
+        "@next/swc-linux-arm64-musl",
+        "@next/swc-linux-x64-gnu",
+        "@next/swc-linux-x64-musl",
+        "@next/swc-win32-arm64-msvc",
+        "@next/swc-win32-x64-msvc",
+        "sharp@0.34.4"
+      ],
+      "optionalPeers": [
+        "babel-plugin-react-compiler"
+      ],
+      "bin": true
+    },
     "ohash@2.0.11": {
       "integrity": "sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ=="
     },
@@ -1297,6 +1345,7 @@
         "npm:@types/react@19.2.2",
         "npm:@types/uuid@11.0.0",
         "npm:@vercel/og@0.8.5",
+        "npm:babel-plugin-react-compiler@1.0.0",
         "npm:next-themes@0.4.6",
         "npm:next@16.0.0",
         "npm:react-dom@19.2.0",
