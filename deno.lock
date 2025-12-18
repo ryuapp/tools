@@ -9,8 +9,9 @@
     "npm:@types/react@19.2.7": "19.2.7",
     "npm:@types/uuid@11.0.0": "11.0.0",
     "npm:@vercel/og@0.8.6": "0.8.6",
+    "npm:babel-plugin-react-compiler@1.0.0": "1.0.0",
     "npm:next-themes@0.4.6": "0.4.6_react@19.2.3_react-dom@19.2.3__react@19.2.3",
-    "npm:next@16.0.10": "16.0.10_react@19.2.3_react-dom@19.2.3__react@19.2.3",
+    "npm:next@16.0.10": "16.0.10_babel-plugin-react-compiler@1.0.0_react@19.2.3_react-dom@19.2.3__react@19.2.3",
     "npm:react-dom@19.2.3": "19.2.3_react@19.2.3",
     "npm:react@19.2.3": "19.2.3",
     "npm:tailwindcss@4.1.18": "4.1.18",
@@ -26,6 +27,19 @@
   "npm": {
     "@alloc/quick-lru@5.2.0": {
       "integrity": "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="
+    },
+    "@babel/helper-string-parser@7.27.1": {
+      "integrity": "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA=="
+    },
+    "@babel/helper-validator-identifier@7.28.5": {
+      "integrity": "sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q=="
+    },
+    "@babel/types@7.28.5": {
+      "integrity": "sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==",
+      "dependencies": [
+        "@babel/helper-string-parser",
+        "@babel/helper-validator-identifier"
+      ]
     },
     "@cloudflare/kv-asset-handler@0.4.1": {
       "integrity": "sha512-Nu8ahitGFFJztxUml9oD/DLb7Z28C8cd8F46IVQ7y5Btz575pvMY8AqZsXkX7Gds29eCKdMgIHjIvzskHgPSFg==",
@@ -746,6 +760,12 @@
       "integrity": "sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==",
       "bin": true
     },
+    "babel-plugin-react-compiler@1.0.0": {
+      "integrity": "sha512-Ixm8tFfoKKIPYdCCKYTsqv+Fd4IJ0DQqMyEimo+pxUOMUR9cVPlwTrFt9Avu+3cb6Zp3mAzl+t1MrG2fxxKsxw==",
+      "dependencies": [
+        "@babel/types"
+      ]
+    },
     "base64-js@0.0.8": {
       "integrity": "sha512-3XSA2cR/h/73EzlXXdU6YNycmYI7+kicTxks4eJg2g39biHR84slg2+des+p7iHYhbRg/udIS4TD53WabcOUkw=="
     },
@@ -1012,11 +1032,12 @@
         "react-dom"
       ]
     },
-    "next@16.0.10_react@19.2.3_react-dom@19.2.3__react@19.2.3": {
+    "next@16.0.10_babel-plugin-react-compiler@1.0.0_react@19.2.3_react-dom@19.2.3__react@19.2.3": {
       "integrity": "sha512-RtWh5PUgI+vxlV3HdR+IfWA1UUHu0+Ram/JBO4vWB54cVPentCD0e+lxyAYEsDTqGGMg7qpjhKh6dc6aW7W/sA==",
       "dependencies": [
         "@next/env",
         "@swc/helpers",
+        "babel-plugin-react-compiler",
         "caniuse-lite",
         "postcss@8.4.31",
         "react",
@@ -1033,6 +1054,9 @@
         "@next/swc-win32-arm64-msvc",
         "@next/swc-win32-x64-msvc",
         "sharp@0.34.5"
+      ],
+      "optionalPeers": [
+        "babel-plugin-react-compiler"
       ],
       "bin": true
     },
@@ -1302,6 +1326,7 @@
         "npm:@types/react@19.2.7",
         "npm:@types/uuid@11.0.0",
         "npm:@vercel/og@0.8.6",
+        "npm:babel-plugin-react-compiler@1.0.0",
         "npm:next-themes@0.4.6",
         "npm:next@16.0.10",
         "npm:react-dom@19.2.3",
